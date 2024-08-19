@@ -302,7 +302,25 @@ const prettierRules = (() => {
 })();
 
 import functional from "eslint-plugin-functional";
+const functionalRules = (() => {
+  return {
+    plugins: { functional },
+    rules: {
+      ...functional.configs.noMutations.rules,
+      "functional/prefer-immutable-types": "off",
+    },
+  };
+})();
+
 import regexp from "eslint-plugin-regexp";
+const regexpRules = (() => {
+  return {
+    plugins: { regexp },
+    rules: {
+      ...regexp.configs["flat/all"].rules,
+    },
+  };
+})();
 
 const rules = [
   javascriptRules,
@@ -318,8 +336,8 @@ const rules = [
   eslintCommentsRules,
   ...typescriptRules,
   prettierRules,
-  functional.configs.noMutations,
-  regexp.configs["flat/all"],
+  functionalRules,
+  regexpRules,
 ];
 
 export default rules;
