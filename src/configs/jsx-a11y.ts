@@ -12,11 +12,7 @@ export const jsxA11yRules = (
   },
   rules: {
     /* eslint ts/no-unsafe-member-access: "off" -- Module has no type declarations */
-    ...renameRules(
-      jsxA11y.flatConfigs.strict.rules as RulesRecord,
-      "jsx-a11y",
-      jsxA11yPrefix,
-    ),
+    ...renameRules(jsxA11y.flatConfigs.strict.rules, "jsx-a11y", jsxA11yPrefix),
     ...rulesConfig,
   } as RulesRecord,
 });

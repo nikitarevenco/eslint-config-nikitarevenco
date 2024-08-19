@@ -9,7 +9,7 @@ export const securityRules = (
   plugins: { [securityPrefix]: security },
   rules: {
     ...renameRules(
-      security.configs.recommended.rules as RulesRecord,
+      security.configs.recommended.rules,
       "security",
       securityPrefix,
     ),

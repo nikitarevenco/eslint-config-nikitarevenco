@@ -13,7 +13,7 @@ export const eslintCommentsRules = (
   },
   rules: {
     ...renameRules(
-      eslintComments.configs.recommended.rules as RulesRecord,
+      eslintComments.configs.recommended.rules,
       "eslint-comments",
       commentsPrefix,
     ),

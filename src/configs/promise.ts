@@ -9,7 +9,7 @@ export const promiseRules = (
   plugins: { [promisePrefix]: promise },
   rules: {
     ...renameRules(
-      promise.configs["flat/recommended"].rules as RulesRecord,
+      promise.configs["flat/recommended"].rules,
       "promise",
       promisePrefix,
     ),

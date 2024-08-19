@@ -7,11 +7,7 @@ export const reactRules = (rulesConfig: RulesConfig, reactPrefix: string) => ({
     [reactPrefix]: react,
   },
   rules: {
-    ...renameRules(
-      react.configs.flat.all.rules as RulesRecord,
-      "react",
-      reactPrefix,
-    ),
+    ...renameRules(react.configs.flat.all.rules, "react", reactPrefix),
     [`${reactPrefix}/forbid-component-props`]: "off",
     [`${reactPrefix}/jsx-filename-extension`]: [
       "error",

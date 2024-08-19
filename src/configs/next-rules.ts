@@ -7,11 +7,7 @@ import { renameRules } from "../utils.js";
 export const nextRules = (rulesConfig: RulesConfig, nextPrefix: string) => ({
   plugins: { [nextPrefix]: fixupPluginRules(next) },
   rules: {
-    ...renameRules(
-      next.configs.recommended.rules as RulesRecord,
-      "@next/next",
-      nextPrefix,
-    ),
+    ...renameRules(next.configs.recommended.rules, "@next/next", nextPrefix),
     ...rulesConfig,
   } as RulesRecord,
 });
