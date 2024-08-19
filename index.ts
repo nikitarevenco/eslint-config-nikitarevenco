@@ -32,35 +32,61 @@ import { fixupPluginRules } from "@eslint/compat";
 type Overrides = Record<string, any>;
 type RulesConfig = Overrides | false;
 
+const newRuleNames = {
+  "react-hooks": "hooks",
+  "jsx-a11y": "a11y",
+  react: "react",
+  unicorn: "unicorn",
+};
+
+const renameRules = (
+  rules: Record<string, any>,
+  oldPrefix: keyof typeof newRuleNames,
+) => {
+  const newPrefix = newRuleNames[oldPrefix];
+  return Object.fromEntries(
+    Object.entries(rules).map(([ruleName, ruleValue]) => [
+      ruleName.replace(new RegExp(`^${oldPrefix}`), newPrefix),
+      ruleValue,
+    ]),
+  );
+};
+
 const reactRules = (rulesConfig: RulesConfig = {}) => {
   return rulesConfig
     ? {
         plugins: {
-          "jsx-a11y": jsxA11y,
-          react: react,
-          "react-hooks": fixupPluginRules(reactHooks),
+          [newRuleNames["jsx-a11y"]]: jsxA11y,
+          [newRuleNames["react"]]: react,
+          [newRuleNames["react-hooks"]]: fixupPluginRules(reactHooks),
         },
         rules: {
-          ...jsxA11y.flatConfigs.strict.rules,
-          ...react.configs.flat.all.rules,
-          ...reactHooks.configs.recommended.rules,
-          "react/forbid-component-props": "off",
-          "react/jsx-filename-extension": [
+          ...renameRules(jsxA11y.flatConfigs.strict.rules, "jsx-a11y"),
+          ...renameRules(react.configs.flat.all.rules, "react"),
+          ...renameRules(reactHooks.configs.recommended.rules, "react-hooks"),
+          [`${newRuleNames["react"]}/forbid-component-props`]: "off",
+          [`${newRuleNames["react"]}/jsx-filename-extension`]: [
             "error",
             { extensions: [".jsx", ".tsx"] },
           ],
-          "react/jsx-max-depth": "off",
-          "react/jsx-no-bind": ["error", { allowArrowFunctions: true }],
-          "react/jsx-no-constructed-context-values": "off",
-          "react/jsx-no-leaked-render": "off",
-          "react/jsx-no-literals": "off",
-          "react/jsx-props-no-spreading": "off",
-          "react/jsx-sort-props": "off",
-          "react/no-multi-comp": "off",
-          "react/no-unescaped-entities": "off",
-          "react/prop-types": ["error", { ignore: ["className"] }],
-          "react/react-in-jsx-scope": "off",
-          "react/require-default-props": "off",
+          [`${newRuleNames["react"]}/jsx-max-depth`]: "off",
+          [`${newRuleNames["react"]}/jsx-no-bind`]: [
+            "error",
+            { allowArrowFunctions: true },
+          ],
+          [`${newRuleNames["react"]}/jsx-no-constructed-context-values`]: "off",
+          [`${newRuleNames["react"]}/jsx-no-leaked-render`]: "off",
+          [`${newRuleNames["react"]}/jsx-no-literals`]: "off",
+          [`${newRuleNames["react"]}/jsx-props-no-spreading`]: "off",
+          [`${newRuleNames["react"]}/jsx-sort-props`]: "off",
+          [`${newRuleNames["react"]}/no-multi-comp`]: "off",
+          [`${newRuleNames["react"]}/no-unescaped-entities`]: "off",
+          [`${newRuleNames["react"]}/prop-types`]: [
+            "error",
+            { ignore: ["className"] },
+          ],
+          [`${newRuleNames["react"]}/react-in-jsx-scope`]: "off",
+          [`${newRuleNames["react"]}/require-default-props`]: "off",
           ...rulesConfig,
         },
       }
@@ -70,14 +96,17 @@ const reactRules = (rulesConfig: RulesConfig = {}) => {
 const unicornRules = (rulesConfig: RulesConfig = {}) => {
   return rulesConfig
     ? {
-        plugins: { unicorn: unicorn },
+        plugins: { [newRuleNames["unicorn"]]: unicorn },
         rules: {
-          ...unicorn.configs["flat/all"].rules,
-          "unicorn/no-array-reduce": "off",
-          "unicorn/no-keyword-prefix": "off",
-          "unicorn/no-null": "off",
-          "unicorn/prefer-at": ["error", { checkAllIndexAccess: true }],
-          "unicorn/prevent-abbreviations": "off",
+          ...renameRules(unicorn.configs["flat/all"].rules!, "unicorn"),
+          [`${newRuleNames["unicorn"]}/no-array-reduce`]: "off",
+          [`${newRuleNames["unicorn"]}/no-keyword-prefix`]: "off",
+          [`${newRuleNames["unicorn"]}/no-null`]: "off",
+          [`${newRuleNames["unicorn"]}/prefer-at`]: [
+            "error",
+            { checkAllIndexAccess: true },
+          ],
+          [`${newRuleNames["unicorn"]}/prevent-abbreviations`]: "off",
           ...rulesConfig,
         },
       }

@@ -1,23 +1,35 @@
 {
   "name": "eslint-config-nikitarevenco",
   "version": "1.0.0",
-  "description": "",
+  "description": "Personal eslint config including hundreds of eslint rules",
   "main": "dist/index.js",
   "type": "module",
   "types": "dist/index.d.ts",
   "scripts": {
     "prepare": "tsc"
   },
-  "keywords": [],
-  "author": "Nikita Revenco",
-  "license": "ISC",
-  "dependencies": {
+  "keywords": [
+    "eslint",
+    "eslint-config",
+    "typescript",
+    "prettier",
+    "eslint-plugin",
+    "javascript"
+  ],
+  "author": "Nikita Revenco <hi@nikitarevenco.com> (https://github.com/nikitarevenco/)",
+  "homepage": "https://github.com/nikitarevenco/eslint-config-nikitarevenco",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "@types/node": "^22.4.1"
+  },
+  "peerDependencies": {
     "@eslint/compat": "^1.1.1",
     "@eslint/js": "^9.9.0",
-    "@types/node": "^22.4.1",
     "eslint": "^9.9.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-functional": "^7.0.1",
     "eslint-plugin-import-x": "^3.1.0",
     "eslint-plugin-jsx-a11y": "^6.9.0",
@@ -28,12 +40,8 @@
     "eslint-plugin-regexp": "^2.6.0",
     "eslint-plugin-sonarjs": "^1.0.4",
     "eslint-plugin-unicorn": "^55.0.0",
-    "typescript": "^5.5.4",
-    "typescript-eslint": "^8.1.0"
-  },
-  "devDependencies": {
+    "typescript-eslint": "^8.1.0",
     "@next/eslint-plugin-next": "^14.2.5",
-    "@types/eslint": "^9.6.0",
     "eslint-plugin-security": "^3.0.1",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-tailwindcss": "^3.17.4"
