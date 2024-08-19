@@ -25,12 +25,12 @@ You can also override any rules, as well as disable an entire plugin by specifyi
 import nikitarevenco from "eslint-config-nikitarevenco";
 
 const override = {
-  "jsx-a11y"
-}
+  "jsx-a11y": "off",
+};
 
 export default nikitarevenco(
   { project: "tsconfig.json", tsconfigRootDir: import.meta.dirname },
-  { react: override, unicorn: false }
+  { react: override, unicorn: false },
 );
 ```
 
