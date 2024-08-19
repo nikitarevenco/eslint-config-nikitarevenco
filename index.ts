@@ -301,6 +301,9 @@ const prettierRules = (() => {
   };
 })();
 
+import functional from "eslint-plugin-functional";
+import regexp from "eslint-plugin-regexp";
+
 const rules = [
   javascriptRules,
   reactRules,
@@ -315,6 +318,8 @@ const rules = [
   eslintCommentsRules,
   ...typescriptRules,
   prettierRules,
+  functional.configs.noMutations,
+  regexp.configs["flat/all"],
 ];
 
-module.exports = rules;
+export default rules;
