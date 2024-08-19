@@ -91,12 +91,37 @@ const importSortRules = (() => {
   };
 })();
 
+// @ts-ignore
+import next from "@next/eslint-plugin-next";
+const nextRules = (() => {
+  return {
+    plugins: { "@next/next": fixupPluginRules(next) },
+    rules: {
+      ...next.configs.recommended.rules,
+    },
+  };
+})();
+
+// @ts-ignore
+import security from "eslint-plugin-security";
+
+const securityRules = (() => {
+  return {
+    plugins: { security },
+    rules: {
+      ...security.configs.recommended.rules,
+    },
+  };
+})();
+
 const rules = [
   reactRules,
   unicornRules,
   sonarRules,
   tailwindRules,
   importSortRules,
+  nextRules,
+  securityRules,
 ];
 
 module.exports = rules;
