@@ -67,32 +67,19 @@ const sonarRules = (() => {
 })();
 
 // @ts-ignore
-// import functional from "eslint-plugin-functional";
-// const functionalRules = (() => {
-//   return {
-//     plugins: { functional: functional },
-//     rules: {
-//       ...functional.configs.noMutations.rules,
-//     },
-//   };
-// })();
+import tailwindcss from "eslint-plugin-tailwindcss";
+const tailwindRules = (() => {
+  return {
+    plugins: { tailwindcss },
+    rules: {
+      "tailwindcss/enforces-negative-arbitrary-values": "error",
+      "tailwindcss/enforces-shorthand": "error",
+      "tailwindcss/no-contradicting-classname": "error",
+      "tailwindcss/no-unnecessary-arbitrary-value": "error",
+    },
+  };
+})();
 
-// import regexp from "eslint-plugin-regexp";
-// const regexpRules = (() => {
-//   return {
-//     plugins: { regexp: regexp },
-//     rules: {
-//       ...regexp.configs["flat/all"].rules,
-//     },
-//   };
-// })();
-
-const rules = {
-  reactRules,
-  unicornRules,
-  sonarRules,
-  // regexp: regexpRules,
-  // functional: functionalRules,
-};
+const rules = [reactRules, unicornRules, sonarRules, tailwindRules];
 
 module.exports = rules;
