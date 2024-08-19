@@ -52,10 +52,6 @@ export default nikitarevenco(
 );
 ```
 
-## Presets
-
-- TODO: Add some presets like `recommended` and `strict`
-
 ## Renamed plugins
 
 List of plugins used in this config, as well as their new name.
