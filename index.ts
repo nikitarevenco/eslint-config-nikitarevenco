@@ -32,6 +32,7 @@ import { fixupPluginRules } from "@eslint/compat";
 type Overrides = Record<string, any>;
 type RulesConfig = Overrides | false;
 
+console.log("HEHEHEEHEHHEHEEHEH");
 const newRuleNames = {
   "react-hooks": "hooks",
   "jsx-a11y": "a11y",
@@ -45,6 +46,10 @@ const newRuleNames = {
   promise: "promise",
   "import-x": "importx",
   "eslint-comments": "comment",
+  prettier: "prettier",
+  functional: "func",
+  regexp: "RegExp",
+  "@typescript-eslint": "ts",
 };
 
 const renameRules = (
@@ -57,6 +62,31 @@ const renameRules = (
       ruleName.replace(new RegExp(`^${oldPrefix}`), newPrefix),
       ruleValue,
     ]),
+  );
+};
+
+const renameRulesTypeScript = (tsConfig: any) => {
+  return Object.fromEntries(
+    Object.entries(tsConfig).map(([key, value]) => {
+      const newValue =
+        key === "rules"
+          ? renameRules(value as any, "@typescript-eslint")
+          : value;
+
+      return [
+        key,
+        key === "plugins" && "@typescript-eslint" in (value as any)
+          ? Object.fromEntries(
+              Object.entries(value as any).map(([pluginName, pluginValue]) => [
+                pluginName === "@typescript-eslint"
+                  ? newRuleNames["@typescript-eslint"]
+                  : pluginName,
+                pluginValue,
+              ]),
+            )
+          : newValue,
+      ];
+    }),
   );
 };
 
@@ -373,17 +403,17 @@ const typescriptRules = (rulesConfig: RulesConfig = {}) => {
             ...rulesConfig,
           },
         },
-      ]
+      ].map(renameRulesTypeScript)
     : [];
 };
 
 const prettierRules = (rulesConfig: RulesConfig = {}) => {
   return rulesConfig
     ? {
-        plugins: { prettier },
+        plugins: { [newRuleNames["prettier"]]: prettier },
         rules: {
           ...configPrettier.rules,
-          "prettier/prettier": ["warn"],
+          [`${newRuleNames["prettier"]}/prettier`]: ["warn"],
           ...rulesConfig,
         },
       }
@@ -393,10 +423,10 @@ const prettierRules = (rulesConfig: RulesConfig = {}) => {
 const functionalRules = (rulesConfig: RulesConfig = {}) => {
   return rulesConfig
     ? {
-        plugins: { functional },
+        plugins: { [newRuleNames["functional"]]: functional },
         rules: {
-          ...functional.configs.noMutations.rules,
-          "functional/prefer-immutable-types": "off",
+          ...renameRules(functional.configs.noMutations.rules!, "functional"),
+          [`${newRuleNames["functional"]}/prefer-immutable-types`]: "off",
           ...rulesConfig,
         },
       }
@@ -406,9 +436,9 @@ const functionalRules = (rulesConfig: RulesConfig = {}) => {
 const regexpRules = (rulesConfig: RulesConfig = {}) => {
   return rulesConfig
     ? {
-        plugins: { regexp },
+        plugins: { [newRuleNames["regexp"]]: regexp },
         rules: {
-          ...regexp.configs["flat/all"].rules,
+          ...renameRules(regexp.configs["flat/all"].rules, "regexp"),
           ...rulesConfig,
         },
       }
