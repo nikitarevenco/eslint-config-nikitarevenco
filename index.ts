@@ -80,6 +80,23 @@ const tailwindRules = (() => {
   };
 })();
 
-const rules = [reactRules, unicornRules, sonarRules, tailwindRules];
+import simpleImportSort from "eslint-plugin-simple-import-sort";
+const importSortRules = (() => {
+  return {
+    plugins: { "simple-import-sort": simpleImportSort },
+    rules: {
+      "simple-import-sort/exports": "error",
+      "simple-import-sort/imports": "error",
+    },
+  };
+})();
+
+const rules = [
+  reactRules,
+  unicornRules,
+  sonarRules,
+  tailwindRules,
+  importSortRules,
+];
 
 module.exports = rules;
