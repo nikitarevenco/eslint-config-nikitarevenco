@@ -32,8 +32,7 @@ import { fixupPluginRules } from "@eslint/compat";
 type Overrides = Record<string, any>;
 type RulesConfig = Overrides | false;
 
-console.log("HEHEHEEHEHHEHEEHEH");
-const newRuleNames = {
+let newRuleNames = {
   "react-hooks": "hooks",
   "jsx-a11y": "a11y",
   react: "react",
@@ -463,8 +462,15 @@ type ConfigItem =
   | "regexp";
 
 export default (
-  project: string,
-  tsconfigRootDir: string,
+  {
+    project,
+    tsconfigRootDir,
+    renames,
+  }: {
+    project: string;
+    tsconfigRootDir: string;
+    renames?: Record<keyof typeof newRuleNames, string>;
+  },
   {
     javascript = {},
     react = {},
@@ -484,6 +490,8 @@ export default (
   }: Partial<Record<ConfigItem, RulesConfig>> = {},
   ...additionalEslintConfigs: any[]
 ) => {
+  newRuleNames = { ...newRuleNames, ...renames };
+
   return typescriptEslint.config(
     ...([
       javascriptRules(javascript),
@@ -517,7 +525,7 @@ export default (
           },
           "import/resolver": {
             typescript: {
-              alwaysTryTypes: true, // always try to resolve types under `<root>@types` directory even it doesn't contain any source code, like `@types/unist`
+              alwaysTryTypes: true,
               project,
             },
           },
