@@ -288,6 +288,19 @@ const typescriptRules = (() => {
   ];
 })();
 
+// @ts-ignore
+import configPrettier from "eslint-config-prettier";
+import prettier from "eslint-plugin-prettier";
+const prettierRules = (() => {
+  return {
+    plugins: { prettier },
+    rules: {
+      ...configPrettier.rules,
+      "prettier/prettier": ["warn"],
+    },
+  };
+})();
+
 const rules = [
   javascriptRules,
   reactRules,
@@ -301,6 +314,7 @@ const rules = [
   importRules,
   eslintCommentsRules,
   ...typescriptRules,
+  prettierRules,
 ];
 
 module.exports = rules;
