@@ -13,7 +13,10 @@ Most basic:
 ```ts
 import nikitarevenco from "eslint-config-nikitarevenco";
 
-export default nikitarevenco("tsconfig.json", import.meta.dirname);
+export default nikitarevenco({
+  project: "tsconfig.json",
+  tsconfigRootDir: import.meta.dirname,
+});
 ```
 
 You can also override any rules, as well as disable an entire plugin by specifying `false`.
@@ -25,7 +28,8 @@ const override = {
   "jsx-a11y"
 }
 
-export default nikitarevenco("tsconfig.json", import.meta.dirname,
+export default nikitarevenco(
+  { project: "tsconfig.json", tsconfigRootDir: import.meta.dirname },
   { react: override, unicorn: false }
 );
 ```
@@ -39,7 +43,8 @@ const override = {
   "jsx-a11y": "off"
 }
 
-export default nikitarevenco("tsconfig.json", import.meta.dirname,
+export default nikitarevenco(
+  { project: "tsconfig.json", tsconfigRootDir: import.meta.dirname },
   { react: override, unicorn: false },
   { plugins: /* ... */, rules: /* ... */ },
   { plugins: /* ... */, rules: /* ... */ }
@@ -64,3 +69,17 @@ List of plugins used in this config, as well as their new name.
 | `func/*`    | `functional/*`         | [eslint-plugin-functional](https://github.com/functional/eslint-plugin-functional)                          |
 | `RegExp/*`  | `regexp/*`             | [eslint-plugin-regexp](https://github.com/swigg/eslint-plugin-regexp)                                       |
 | `ts/*`      | `@typescript-eslint/*` | [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint)                  |
+
+You can also override and specify your own custom names for each plugin.
+
+```ts
+import nikitarevenco from "eslint-config-nikitarevenco";
+
+export default nikitarevenco({
+  project: "tsconfig.json",
+  tsconfigRootDir: import.meta.dirname,
+  renames: {
+    "@typescript-eslint": "typescript",
+  },
+});
+```
