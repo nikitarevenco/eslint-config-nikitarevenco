@@ -105,10 +105,10 @@ const nikitarevenco = (
         },
       },
       settings: {
-        "import/parsers": {
+        "import-x/parsers": {
           "@typescript-eslint/parser": [".ts", ".tsx"],
         },
-        "import/resolver": {
+        "import-x/resolver": {
           typescript: {
             alwaysTryTypes: true,
             project,

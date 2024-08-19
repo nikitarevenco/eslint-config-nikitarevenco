@@ -17,6 +17,9 @@ importers:
       '@next/eslint-plugin-next':
         specifier: ^14.2.5
         version: 14.2.5
+      '@typescript-eslint/parser':
+        specifier: ^8.2.0
+        version: 8.1.0(eslint@9.9.0(jiti@1.21.6))(typescript@5.5.4)
       eslint:
         specifier: ^9.9.0
         version: 9.9.0(jiti@1.21.6)
@@ -79,8 +82,8 @@ importers:
         specifier: ^22.4.1
         version: 22.4.1
       eslint-config-nikitarevenco:
-        specifier: ^1.2.0
-        version: 1.2.0(kswmtvukldzncfd7oioo7rg33i)
+        specifier: ^2.0.0
+        version: 2.0.0(kswmtvukldzncfd7oioo7rg33i)
       typescript:
         specifier: ^5.5.4
         version: 5.5.4
@@ -622,8 +625,8 @@ packages:
     resolution: {integrity: sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw==}
     engines: {node: '>=12'}
 
-  eslint-config-nikitarevenco@1.2.0:
-    resolution: {integrity: sha512-eq0qUdwkQrxkaV8+XTKqPD6gQC1byHj5pXMF3THio1fW1YjlztZQfNbN3VDNX657+I6Qgu0Dn2Z9s3Xy8wZEzQ==}
+  eslint-config-nikitarevenco@2.0.0:
+    resolution: {integrity: sha512-9KfC3EdAeZRRPHLr3423VeJVELt8xjLzjmRFTvzmNKzMyfxx2+K5ZVnLcBzXIFm4ZXKq2K+EUDGlFu3gIsb1tQ==}
     peerDependencies:
       '@eslint/compat': ^1.1.1
       '@eslint/js': ^9.9.0
@@ -2493,7 +2496,7 @@ snapshots:
 
   escape-string-regexp@5.0.0: {}
 
-  eslint-config-nikitarevenco@1.2.0(kswmtvukldzncfd7oioo7rg33i):
+  eslint-config-nikitarevenco@2.0.0(kswmtvukldzncfd7oioo7rg33i):
     dependencies:
       '@eslint/compat': 1.1.1
       '@eslint/js': 9.9.0
