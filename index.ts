@@ -37,6 +37,14 @@ const newRuleNames = {
   "jsx-a11y": "a11y",
   react: "react",
   unicorn: "unicorn",
+  sonarjs: "sonar",
+  tailwindcss: "tw",
+  "simple-import-sort": "import",
+  "@next/next": "next",
+  security: "security",
+  promise: "promise",
+  "import-x": "importx",
+  "eslint-comments": "comment",
 };
 
 const renameRules = (
@@ -116,9 +124,9 @@ const unicornRules = (rulesConfig: RulesConfig = {}) => {
 const sonarRules = (rulesConfig: RulesConfig = {}) => {
   return rulesConfig
     ? {
-        plugins: { sonarjs: sonar },
+        plugins: { [newRuleNames["sonarjs"]]: sonar },
         rules: {
-          ...sonar.configs.recommended.rules,
+          ...renameRules(sonar.configs.recommended.rules!, "sonarjs"),
           ...rulesConfig,
         },
       }
@@ -128,12 +136,15 @@ const sonarRules = (rulesConfig: RulesConfig = {}) => {
 const tailwindRules = (rulesConfig: RulesConfig = {}) => {
   return rulesConfig
     ? {
-        plugins: { tailwindcss },
+        plugins: { [newRuleNames["tailwindcss"]]: tailwindcss },
         rules: {
-          "tailwindcss/enforces-negative-arbitrary-values": "error",
-          "tailwindcss/enforces-shorthand": "error",
-          "tailwindcss/no-contradicting-classname": "error",
-          "tailwindcss/no-unnecessary-arbitrary-value": "error",
+          [`${newRuleNames["tailwindcss"]}/enforces-negative-arbitrary-values`]:
+            "error",
+          [`${newRuleNames["tailwindcss"]}/enforces-shorthand`]: "error",
+          [`${newRuleNames["tailwindcss"]}/no-contradicting-classname`]:
+            "error",
+          [`${newRuleNames["tailwindcss"]}/no-unnecessary-arbitrary-value`]:
+            "error",
           ...rulesConfig,
         },
       }
@@ -143,10 +154,10 @@ const tailwindRules = (rulesConfig: RulesConfig = {}) => {
 const importSortRules = (rulesConfig: RulesConfig = {}) => {
   return rulesConfig
     ? {
-        plugins: { "simple-import-sort": simpleImportSort },
+        plugins: { [newRuleNames["simple-import-sort"]]: simpleImportSort },
         rules: {
-          "simple-import-sort/exports": "error",
-          "simple-import-sort/imports": "error",
+          [`${newRuleNames["simple-import-sort"]}/exports`]: "error",
+          [`${newRuleNames["simple-import-sort"]}/imports`]: "error",
           ...rulesConfig,
         },
       }
@@ -156,9 +167,9 @@ const importSortRules = (rulesConfig: RulesConfig = {}) => {
 const nextRules = (rulesConfig: RulesConfig = {}) => {
   return rulesConfig
     ? {
-        plugins: { "@next/next": fixupPluginRules(next) },
+        plugins: { [newRuleNames["@next/next"]]: fixupPluginRules(next) },
         rules: {
-          ...next.configs.recommended.rules,
+          ...renameRules(next.configs.recommended.rules, "@next/next"),
           ...rulesConfig,
         },
       }
@@ -168,9 +179,9 @@ const nextRules = (rulesConfig: RulesConfig = {}) => {
 const securityRules = (rulesConfig: RulesConfig = {}) => {
   return rulesConfig
     ? {
-        plugins: { security },
+        plugins: { [newRuleNames["security"]]: security },
         rules: {
-          ...security.configs.recommended.rules,
+          ...renameRules(security.configs.recommended.rules, "security"),
           ...rulesConfig,
         },
       }
@@ -180,11 +191,11 @@ const securityRules = (rulesConfig: RulesConfig = {}) => {
 const promiseRules = (rulesConfig: RulesConfig = {}) => {
   return rulesConfig
     ? {
-        plugins: { promise },
+        plugins: { [newRuleNames["promise"]]: promise },
         rules: {
-          ...promise.configs["flat/recommended"].rules,
-          "promise/always-return": "off",
-          "promise/catch-or-return": "off",
+          ...renameRules(promise.configs["flat/recommended"].rules, "promise"),
+          [`${newRuleNames["promise"]}/always-return`]: "off",
+          [`${newRuleNames["promise"]}/catch-or-return`]: "off",
           ...rulesConfig,
         },
       }
@@ -194,9 +205,9 @@ const promiseRules = (rulesConfig: RulesConfig = {}) => {
 const importRules = (rulesConfig: RulesConfig = {}) => {
   return rulesConfig
     ? {
-        plugins: { "import-x": importX },
+        plugins: { [newRuleNames["import-x"]]: importX },
         rules: {
-          ...importX.configs.recommended.rules,
+          ...renameRules(importX.configs.recommended.rules, "import-x"),
           ...rulesConfig,
         },
       }
@@ -242,11 +253,16 @@ const javascriptRules = (rulesConfig: RulesConfig = {}) => {
 const eslintCommentsRules = (rulesConfig: RulesConfig = {}) => {
   return rulesConfig
     ? {
-        plugins: { "eslint-comments": fixupPluginRules(eslintComments) },
+        plugins: {
+          [newRuleNames["eslint-comments"]]: fixupPluginRules(eslintComments),
+        },
         rules: {
-          ...eslintComments.configs.recommended.rules,
-          "eslint-comments/require-description": "error",
-          "eslint-comments/no-unused-disable": "error",
+          ...renameRules(
+            eslintComments.configs.recommended.rules,
+            "eslint-comments",
+          ),
+          [`${newRuleNames["eslint-comments"]}/require-description`]: "error",
+          [`${newRuleNames["eslint-comments"]}/no-unused-disable`]: "error",
           ...rulesConfig,
         },
       }
