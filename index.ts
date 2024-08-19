@@ -27,6 +27,7 @@ import reactHooks from "eslint-plugin-react-hooks";
 import react from "eslint-plugin-react";
 // @ts-ignore
 import jsxA11y from "eslint-plugin-jsx-a11y";
+import typescriptEslint from "typescript-eslint";
 import { fixupPluginRules } from "@eslint/compat";
 type Overrides = Record<string, any>;
 type RulesConfig = Overrides | false;
@@ -386,38 +387,71 @@ type ConfigItem =
   | "functional"
   | "regexp";
 
-export default ({
-  javascript = {},
-  react = {},
-  unicorn = {},
-  sonarjs = {},
-  tailwindcss = {},
-  importSort = {},
-  nextjs = {},
-  security = {},
-  promise = {},
-  importx = {},
-  eslintComments = {},
-  typescript = {},
-  prettier = {},
-  functional = {},
-  regexp = {},
-}: Partial<Record<ConfigItem, RulesConfig>> = {}) => {
-  return [
-    javascriptRules(javascript),
-    reactRules(react),
-    unicornRules(unicorn),
-    sonarRules(sonarjs),
-    tailwindRules(tailwindcss),
-    importSortRules(importSort),
-    nextRules(nextjs),
-    securityRules(security),
-    promiseRules(promise),
-    importRules(importx),
-    eslintCommentsRules(eslintComments),
-    ...typescriptRules(typescript),
-    prettierRules(prettier),
-    functionalRules(functional),
-    regexpRules(regexp),
-  ];
+export default (
+  project: string,
+  tsconfigRootDir: string,
+  {
+    javascript = {},
+    react = {},
+    unicorn = {},
+    sonarjs = {},
+    tailwindcss = {},
+    importSort = {},
+    nextjs = {},
+    security = {},
+    promise = {},
+    importx = {},
+    eslintComments = {},
+    typescript = {},
+    prettier = {},
+    functional = {},
+    regexp = {},
+  }: Partial<Record<ConfigItem, RulesConfig>> = {},
+  ...additionalEslintConfigs: any[]
+) => {
+  return typescriptEslint.config(
+    ...([
+      javascriptRules(javascript),
+      reactRules(react),
+      unicornRules(unicorn),
+      sonarRules(sonarjs),
+      tailwindRules(tailwindcss),
+      importSortRules(importSort),
+      nextRules(nextjs),
+      securityRules(security),
+      promiseRules(promise),
+      importRules(importx),
+      eslintCommentsRules(eslintComments),
+      ...typescriptRules(typescript),
+      prettierRules(prettier),
+      functionalRules(functional),
+      regexpRules(regexp),
+      {
+        languageOptions: {
+          parserOptions: {
+            ecmaFeatures: {
+              jsx: true,
+            },
+            project: true,
+            tsconfigRootDir,
+          },
+        },
+        settings: {
+          "import/parsers": {
+            "@typescript-eslint/parser": [".ts", ".tsx"],
+          },
+          "import/resolver": {
+            typescript: {
+              alwaysTryTypes: true, // always try to resolve types under `<root>@types` directory even it doesn't contain any source code, like `@types/unist`
+              project,
+            },
+          },
+          react: {
+            version: "detect",
+          },
+        },
+      },
+    ] as any),
+    ...additionalEslintConfigs,
+  );
 };
