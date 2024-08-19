@@ -172,6 +172,19 @@ const javascriptRules = (() => {
   };
 })();
 
+// @ts-ignore
+import eslintComments from "eslint-plugin-eslint-comments";
+const eslintCommentsRules = (() => {
+  return {
+    plugins: { "eslint-comments": fixupPluginRules(eslintComments) },
+    rules: {
+      ...eslintComments.configs.recommended.rules,
+      "eslint-comments/require-description": "error",
+      "eslint-comments/no-unused-disable": "error",
+    },
+  };
+})();
+
 const rules = [
   javascriptRules,
   reactRules,
@@ -183,6 +196,7 @@ const rules = [
   securityRules,
   promiseRules,
   importRules,
+  eslintCommentsRules,
 ];
 
 module.exports = rules;
