@@ -70,8 +70,8 @@ type RulesRecord<Prefix extends NewPrefixes | OldPrefixes | "" = ""> =
 const renameRules = <OldPrefix extends OldPrefixes>(
   rules: RulesRecord,
   oldPrefix: OldPrefix,
+  newPrefix: string,
 ) => {
-  const newPrefix = newRuleNames[oldPrefix];
   const replace = `^${oldPrefix}`;
   return Object.fromEntries(
     Object.entries(rules).map(([ruleName, ruleValue]) => [
@@ -83,6 +83,7 @@ const renameRules = <OldPrefix extends OldPrefixes>(
 
 const renameRulesTypeScript = (
   tsConfig: Linter.Config<RulesRecord<"@typescript-eslint">>,
+  newPrefix: string,
 ): Linter.Config<RulesRecord<GetNewPrefix<"@typescript-eslint">>> =>
   Object.fromEntries(
     (
@@ -97,8 +98,11 @@ const renameRulesTypeScript = (
     ).map(([key, value]) => {
       const newValue =
         /* eslint sonar/no-duplicate-string: "off" -- Would not make the code cleaner if we had defined a constant for it */
-        // @ts-expect-error -- Will error otherwise
-        key === "rules" ? renameRules(value, "@typescript-eslint") : value;
+        key === "rules"
+          ? /* eslint no-inline-comments: "off" -- Auto fixes to add an inline comment, will fix later */
+            // @ts-expect-error -- Will error otherwise
+            renameRules(value, "@typescript-eslint", newPrefix)
+          : value;
 
       return [
         key,
@@ -117,25 +121,42 @@ const renameRulesTypeScript = (
     }),
   );
 
-const reactRules = (
+const reactHooksRules = (
   rulesConfig: RulesConfig,
-  reactPrefix: string,
-  jsxA11yPrefix: string,
   reactHooksPrefix: string,
-  /* eslint ts/max-params: "off" -- Will be refactored later */
 ) => ({
   plugins: {
-    /* eslint ts/no-unsafe-assignment: "off" -- Module has no type declarations */
-    [jsxA11yPrefix]: jsxA11y,
-    [reactPrefix]: react,
     /* eslint ts/no-unsafe-argument: "off" -- Module has no type declarations */
     [reactHooksPrefix]: fixupPluginRules(reactHooks),
   },
   rules: {
+    ...renameRules(
+      reactHooks.configs.recommended.rules,
+      "react-hooks",
+      reactHooksPrefix,
+    ),
+    ...rulesConfig,
+  },
+});
+
+const jsxA11yRules = (rulesConfig: RulesConfig, jsxA11yPrefix: string) => ({
+  plugins: {
+    /* eslint ts/no-unsafe-assignment: "off" -- Module has no type declarations */
+    [jsxA11yPrefix]: jsxA11y,
+  },
+  rules: {
     /* eslint ts/no-unsafe-member-access: "off" -- Module has no type declarations */
-    ...renameRules(jsxA11y.flatConfigs.strict.rules, "jsx-a11y"),
-    ...renameRules(react.configs.flat.all.rules, "react"),
-    ...renameRules(reactHooks.configs.recommended.rules, "react-hooks"),
+    ...renameRules(jsxA11y.flatConfigs.strict.rules, "jsx-a11y", jsxA11yPrefix),
+    ...rulesConfig,
+  },
+});
+
+const reactRules = (rulesConfig: RulesConfig, reactPrefix: string) => ({
+  plugins: {
+    [reactPrefix]: react,
+  },
+  rules: {
+    ...renameRules(react.configs.flat.all.rules, "react", reactPrefix),
     [`${reactPrefix}/forbid-component-props`]: "off",
     [`${reactPrefix}/jsx-filename-extension`]: [
       "error",
@@ -157,82 +178,100 @@ const reactRules = (
   },
 });
 
-const unicornRules = (rulesConfig: RulesConfig, newPrefix: string) =>
+const unicornRules = (rulesConfig: RulesConfig, unicornPrefix: string) =>
   rulesConfig
     ? {
-        plugins: { [newPrefix]: unicorn },
+        plugins: { [unicornPrefix]: unicorn },
         rules: {
-          // @ts-expect-error -- Will refactor later
-          ...renameRules(unicorn.configs["flat/all"].rules, "unicorn"),
-          [`${newPrefix}/no-array-reduce`]: "off",
-          [`${newPrefix}/no-keyword-prefix`]: "off",
-          [`${newPrefix}/no-null`]: "off",
-          [`${newPrefix}/prefer-at`]: ["error", { checkAllIndexAccess: true }],
-          [`${newPrefix}/prevent-abbreviations`]: "off",
+          ...renameRules(
+            // @ts-expect-error -- Will refactor later
+            unicorn.configs["flat/all"].rules,
+            "unicorn",
+            unicornPrefix,
+          ),
+          [`${unicornPrefix}/no-array-reduce`]: "off",
+          [`${unicornPrefix}/no-keyword-prefix`]: "off",
+          [`${unicornPrefix}/no-null`]: "off",
+          [`${unicornPrefix}/prefer-at`]: [
+            "error",
+            { checkAllIndexAccess: true },
+          ],
+          [`${unicornPrefix}/prevent-abbreviations`]: "off",
           ...rulesConfig,
         },
       }
     : {};
 
-const sonarRules = (rulesConfig: RulesConfig, newPrefix: string) => ({
-  plugins: { [newPrefix]: sonar },
+const sonarRules = (rulesConfig: RulesConfig, sonarPrefix: string) => ({
+  plugins: { [sonarPrefix]: sonar },
   rules: {
     // @ts-expect-error -- Will refactor later
-    ...renameRules(sonar.configs.recommended.rules, "sonarjs"),
+    ...renameRules(sonar.configs.recommended.rules, "sonarjs", sonarPrefix),
     ...rulesConfig,
   },
 });
 
-const tailwindRules = (rulesConfig: RulesConfig, newPrefix: string) => ({
-  plugins: { [newPrefix]: tailwindcss },
+const tailwindRules = (rulesConfig: RulesConfig, tailwindPrefix: string) => ({
+  plugins: { [tailwindPrefix]: tailwindcss },
   rules: {
-    [`${newPrefix}/enforces-negative-arbitrary-values`]: "error",
-    [`${newPrefix}/enforces-shorthand`]: "error",
-    [`${newPrefix}/no-contradicting-classname`]: "error",
-    [`${newPrefix}/no-unnecessary-arbitrary-value`]: "error",
+    [`${tailwindPrefix}/enforces-negative-arbitrary-values`]: "error",
+    [`${tailwindPrefix}/enforces-shorthand`]: "error",
+    [`${tailwindPrefix}/no-contradicting-classname`]: "error",
+    [`${tailwindPrefix}/no-unnecessary-arbitrary-value`]: "error",
     ...rulesConfig,
   } as Record<string, RuleEntry>,
 });
 
-const importSortRules = (rulesConfig: RulesConfig, newPrefix: string) => ({
-  plugins: { [newPrefix]: simpleImportSort },
+const importSortRules = (
+  rulesConfig: RulesConfig,
+  importSortPrefix: string,
+) => ({
+  plugins: { [importSortPrefix]: simpleImportSort },
   rules: {
-    [`${newPrefix}/exports`]: "error",
-    [`${newPrefix}/imports`]: "error",
+    [`${importSortPrefix}/exports`]: "error",
+    [`${importSortPrefix}/imports`]: "error",
     ...rulesConfig,
   } as Record<string, RuleEntry>,
 });
 
-const nextRules = (rulesConfig: RulesConfig, newPrefix: string) => ({
-  plugins: { [newPrefix]: fixupPluginRules(next) },
+const nextRules = (rulesConfig: RulesConfig, nextPrefix: string) => ({
+  plugins: { [nextPrefix]: fixupPluginRules(next) },
   rules: {
-    ...renameRules(next.configs.recommended.rules, "@next/next"),
+    ...renameRules(next.configs.recommended.rules, "@next/next", nextPrefix),
     ...rulesConfig,
   },
 });
 
-const securityRules = (rulesConfig: RulesConfig, newPrefix: string) => ({
-  plugins: { [newPrefix]: security },
+const securityRules = (rulesConfig: RulesConfig, securityPrefix: string) => ({
+  plugins: { [securityPrefix]: security },
   rules: {
-    ...renameRules(security.configs.recommended.rules, "security"),
+    ...renameRules(
+      security.configs.recommended.rules,
+      "security",
+      securityPrefix,
+    ),
     ...rulesConfig,
   },
 });
 
-const promiseRules = (rulesConfig: RulesConfig, newPrefix: string) => ({
-  plugins: { [newPrefix]: promise },
+const promiseRules = (rulesConfig: RulesConfig, promisePrefix: string) => ({
+  plugins: { [promisePrefix]: promise },
   rules: {
-    ...renameRules(promise.configs["flat/recommended"].rules, "promise"),
-    [`${newPrefix}/always-return`]: "off",
-    [`${newPrefix}/catch-or-return`]: "off",
+    ...renameRules(
+      promise.configs["flat/recommended"].rules,
+      "promise",
+      promisePrefix,
+    ),
+    [`${promisePrefix}/always-return`]: "off",
+    [`${promisePrefix}/catch-or-return`]: "off",
     ...rulesConfig,
   },
 });
 
-const importRules = (rulesConfig: RulesConfig, newPrefix: string) => ({
-  plugins: { [newPrefix]: importX },
+const importRules = (rulesConfig: RulesConfig, importPrefix: string) => ({
+  plugins: { [importPrefix]: importX },
   rules: {
-    ...renameRules(importX.configs.recommended.rules, "import-x"),
+    ...renameRules(importX.configs.recommended.rules, "import-x", importPrefix),
     ...rulesConfig,
   },
 });
@@ -273,19 +312,26 @@ const javascriptRules = (rulesConfig: RulesConfig = {}) =>
     : {};
 /* eslint "max-lines": "off" -- Will split file up later */
 
-const eslintCommentsRules = (rulesConfig: RulesConfig, newPrefix: string) => ({
+const eslintCommentsRules = (
+  rulesConfig: RulesConfig,
+  commentsPrefix: string,
+) => ({
   plugins: {
-    [newPrefix]: fixupPluginRules(eslintComments),
+    [commentsPrefix]: fixupPluginRules(eslintComments),
   },
   rules: {
-    ...renameRules(eslintComments.configs.recommended.rules, "eslint-comments"),
-    [`${newPrefix}/require-description`]: "error",
-    [`${newPrefix}/no-unused-disable`]: "error",
+    ...renameRules(
+      eslintComments.configs.recommended.rules,
+      "eslint-comments",
+      commentsPrefix,
+    ),
+    [`${commentsPrefix}/require-description`]: "error",
+    [`${commentsPrefix}/no-unused-disable`]: "error",
     ...rulesConfig,
   },
 });
 
-const typescriptRules = (rulesConfig: RulesConfig = {}) =>
+const typescriptRules = (rulesConfig: RulesConfig, typescriptPrefix: string) =>
   rulesConfig
     ? [
         ...typescript.configs.strictTypeChecked,
@@ -389,37 +435,46 @@ const typescriptRules = (rulesConfig: RulesConfig = {}) =>
             ...rulesConfig,
           },
         },
+      ].map((typescriptConfig) =>
         // @ts-expect-error -- Will deal with this later
-      ].map((typescriptConfig) => renameRulesTypeScript(typescriptConfig))
+        renameRulesTypeScript(typescriptConfig, typescriptPrefix),
+      )
     : [];
 
 const prettierRules = (
   rulesConfig: RulesConfig,
-  newPrefix: string,
+  prettierPrefix: string,
 ): FlatConfig => ({
-  plugins: { [newPrefix]: prettier },
+  plugins: { [prettierPrefix]: prettier },
   rules: {
     ...configPrettier.rules,
-    [`${newPrefix}/prettier`]: ["warn"],
+    [`${prettierPrefix}/prettier`]: ["warn"],
     ...rulesConfig,
   },
 });
 
-const functionalRules = (rulesConfig: RulesConfig, newPrefix: string) => ({
-  plugins: { [newPrefix]: functional },
+const functionalRules = (
+  rulesConfig: RulesConfig,
+  functionalPrefix: string,
+) => ({
+  plugins: { [functionalPrefix]: functional },
   rules: {
-    // @ts-expect-error -- Can not be undefined
-    ...renameRules(functional.configs.noMutations.rules, "functional"),
-    [`${newPrefix}/prefer-immutable-types`]: "off",
-    [`${newPrefix}/type-declaration-immutability`]: "off",
+    ...renameRules(
+      // @ts-expect-error -- Can not be undefined
+      functional.configs.noMutations.rules,
+      "functional",
+      functionalPrefix,
+    ),
+    [`${functionalPrefix}/prefer-immutable-types`]: "off",
+    [`${functionalPrefix}/type-declaration-immutability`]: "off",
     ...rulesConfig,
   },
 });
 
-const regexpRules = (rulesConfig: RulesConfig, newPrefix: string) => ({
-  plugins: { [newPrefix]: regexp },
+const regexpRules = (rulesConfig: RulesConfig, regexpPrefix: string) => ({
+  plugins: { [regexpPrefix]: regexp },
   rules: {
-    ...renameRules(regexp.configs["flat/all"].rules, "regexp"),
+    ...renameRules(regexp.configs["flat/all"].rules, "regexp", regexpPrefix),
     ...rulesConfig,
   },
 });
@@ -434,6 +489,8 @@ type ConfigItem =
   | "promise"
   | "nextjs"
   | "importx"
+  | "reactHooks"
+  | "jsxA11y"
   | "security"
   | "eslintComments"
   | "typescript"
@@ -462,6 +519,8 @@ const nikitarevenco = (
     securityOverride = {},
     promiseOverride = {},
     importxOverride = {},
+    reactHooksOverride = {},
+    jsxA11yOverride = {},
     eslintCommentsOverride = {},
     typescriptOverride = {},
     prettierOverride = {},
@@ -474,12 +533,9 @@ const nikitarevenco = (
 
   return typescript.config(
     javascriptRules(javascriptOverride),
-    reactRules(
-      reactOverride,
-      renamedRules.react,
-      renamedRules["jsx-a11y"],
-      renamedRules["react-hooks"],
-    ),
+    reactRules(reactOverride, renamedRules.react),
+    reactHooksRules(reactHooksOverride, renamedRules["react-hooks"]),
+    jsxA11yRules(jsxA11yOverride, renamedRules["jsx-a11y"]),
     unicornRules(unicornOverride, renamedRules.unicorn),
     sonarRules(sonarjsOverride, renamedRules.sonarjs),
     tailwindRules(tailwindcssOverride, renamedRules.tailwindcss),
@@ -488,7 +544,7 @@ const nikitarevenco = (
     securityRules(securityOverride, renamedRules.security),
     promiseRules(promiseOverride, renamedRules.promise),
     importRules(importxOverride, renamedRules["import-x"]),
-    ...typescriptRules(typescriptOverride),
+    ...typescriptRules(typescriptOverride, renamedRules["@typescript-eslint"]),
     eslintCommentsRules(
       eslintCommentsOverride,
       renamedRules["eslint-comments"],
