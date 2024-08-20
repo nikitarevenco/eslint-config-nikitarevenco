@@ -33,6 +33,7 @@ export const renameRules = <OldPrefix extends OldPrefixes>(
   const replace = `^${oldPrefix}`;
   return Object.fromEntries(
     Object.entries(rules).map(([ruleName, ruleValue]) => [
+      /* eslint security/detect-non-literal-regexp: "off" -- Constructor needs to be used to be able to dynamically generate the regexp */
       ruleName.replace(new RegExp(replace, "u"), newPrefix),
       ruleValue,
     ]),

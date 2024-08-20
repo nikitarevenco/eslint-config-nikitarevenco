@@ -1,8 +1,10 @@
+import { GLOB_SRC } from "../globs.js";
 import { react } from "../stub.js";
 import { type RulesConfig, type RulesRecord } from "../types.js";
 import { renameRules } from "../utils.js";
 
 export const reactRules = (rulesConfig: RulesConfig, reactPrefix: string) => ({
+  files: [GLOB_SRC],
   plugins: {
     [reactPrefix]: react,
   },

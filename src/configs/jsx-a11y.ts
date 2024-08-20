@@ -1,3 +1,4 @@
+import { GLOB_SRC } from "../globs.js";
 import { jsxA11y } from "../stub.js";
 import { type RulesConfig, type RulesRecord } from "../types.js";
 import { renameRules } from "../utils.js";
@@ -6,6 +7,7 @@ export const jsxA11yRules = (
   rulesConfig: RulesConfig,
   jsxA11yPrefix: string,
 ) => ({
+  files: [GLOB_SRC],
   plugins: {
     /* eslint ts/no-unsafe-assignment: "off" -- Module has no type declarations */
     [jsxA11yPrefix]: jsxA11y,

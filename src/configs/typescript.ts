@@ -1,5 +1,6 @@
 import typescript from "typescript-eslint";
 
+import { GLOB_SRC } from "../globs.js";
 import { type RulesConfig, type RulesRecord } from "../types.js";
 import { renameRulesTypeScript } from "../utils.js";
 
@@ -9,6 +10,7 @@ export const typescriptRules = (
 ) =>
   rulesConfig
     ? [
+        /* eslint import/no-named-as-default-member: "off" -- the name should not be changed, we are importing from the correct place */
         ...typescript.configs.strictTypeChecked,
         ...typescript.configs.stylisticTypeChecked,
         {
@@ -110,8 +112,10 @@ export const typescriptRules = (
             ...rulesConfig,
           } as RulesRecord,
         },
-      ].map((typescriptConfig) =>
-        // @ts-expect-error -- Will deal with this later
-        renameRulesTypeScript(typescriptConfig, typescriptPrefix),
-      )
+      ]
+        .map((typescriptConfig) =>
+          // @ts-expect-error -- Will deal with this later
+          renameRulesTypeScript(typescriptConfig, typescriptPrefix),
+        )
+        .map((typescriptConfig) => ({ ...typescriptConfig, files: [GLOB_SRC] }))
     : [];

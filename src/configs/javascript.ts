@@ -1,9 +1,11 @@
+import { GLOB_SRC } from "../globs.js";
 import { javascript } from "../stub.js";
 import { type RulesConfig, type RulesRecord } from "../types.js";
 
 export const javascriptRules = (rulesConfig: RulesConfig = {}) =>
   rulesConfig
     ? {
+        files: [GLOB_SRC],
         rules: {
           ...javascript.configs.all.rules,
           "capitalized-comments": "off",

@@ -3,6 +3,8 @@ import { type Linter } from "eslint";
 import { type newRuleNames } from "./utils.js";
 
 export type Overrides = Record<string, unknown>;
+
+/** Override specific rules or disable plugin */
 export type RulesConfig = Overrides | false;
 export type OldPrefixes = keyof typeof newRuleNames;
 

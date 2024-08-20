@@ -1,5 +1,6 @@
 import unicorn from "eslint-plugin-unicorn";
 
+import { GLOB_SRC } from "../globs.js";
 import { type RulesConfig, type RulesRecord } from "../types.js";
 import { renameRules } from "../utils.js";
 
@@ -9,6 +10,7 @@ export const unicornRules = (
 ) =>
   rulesConfig
     ? {
+        files: [GLOB_SRC],
         plugins: { [unicornPrefix]: unicorn },
         rules: {
           ...renameRules(

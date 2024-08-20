@@ -18,6 +18,7 @@ import { sonarRules } from "./src/configs/sonar.js";
 import { tailwindRules } from "./src/configs/tailwind.js";
 import { typescriptRules } from "./src/configs/typescript.js";
 import { unicornRules } from "./src/configs/unicorn.js";
+import { GLOB_EXCLUDE } from "./src/globs.js";
 import { type OldPrefixes, type RulesConfig } from "./src/types.js";
 import { newRuleNames } from "./src/utils.js";
 
@@ -73,6 +74,7 @@ const nikitarevenco = (
 ) => {
   const renamedRules = { ...newRuleNames, ...renames };
 
+  /* eslint import/no-named-as-default-member: "off" -- Importing from the correct module */
   return typescript.config(
     javascriptRules(javascriptOverride),
     reactRules(reactOverride, renamedRules.react),
@@ -118,6 +120,9 @@ const nikitarevenco = (
           version: "detect",
         },
       },
+    },
+    {
+      ignores: GLOB_EXCLUDE,
     },
     ...additionalEslintConfigs,
   );

@@ -1,5 +1,6 @@
 import functional from "eslint-plugin-functional";
 
+import { GLOB_SRC } from "../globs.js";
 import { type RulesConfig, type RulesRecord } from "../types.js";
 import { renameRules } from "../utils.js";
 
@@ -7,6 +8,7 @@ export const functionalRules = (
   rulesConfig: RulesConfig,
   functionalPrefix: string,
 ) => ({
+  files: [GLOB_SRC],
   plugins: { [functionalPrefix]: functional },
   rules: {
     ...renameRules(
