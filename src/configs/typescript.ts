@@ -37,7 +37,7 @@ export const typescriptRules = (
               {
                 selector: "variable",
                 types: ["boolean"],
-                format: ["camelCase"],
+                format: ["PascalCase"],
                 prefix: ["is", "should", "has", "can", "did", "will"],
               },
               // Ignore naming convention if we are required to use quotes to access a property e.g. Set-Cookie
