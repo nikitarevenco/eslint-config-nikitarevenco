@@ -25,6 +25,7 @@ export const reactRules = (rulesConfig: RulesConfig, reactPrefix: string) => ({
     [`${reactPrefix}/no-multi-comp`]: "off",
     [`${reactPrefix}/no-unescaped-entities`]: "off",
     [`${reactPrefix}/prop-types`]: ["error", { ignore: ["className"] }],
+    [`${reactPrefix}/prefer-read-only-props`]: "off",
     [`${reactPrefix}/react-in-jsx-scope`]: "off",
     [`${reactPrefix}/require-default-props`]: "off",
     ...rulesConfig,
