@@ -17,7 +17,7 @@ export const newRuleNames = {
   "@next/next": "@next/next",
   security: "security",
   promise: "promise",
-  "import-x": "import-x",
+  import: "import",
   "eslint-comments": "eslint-comments",
   prettier: "prettier",
   functional: "functional",

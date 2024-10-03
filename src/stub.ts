@@ -8,6 +8,8 @@ import _configPrettier from "eslint-config-prettier";
 // @ts-expect-error -- No declaration for this module
 import _eslintComments from "eslint-plugin-eslint-comments";
 // @ts-expect-error -- No declaration for this module
+import _import from "eslint-plugin-import";
+// @ts-expect-error -- No declaration for this module
 import _jsxA11y from "eslint-plugin-jsx-a11y";
 // @ts-expect-error -- No declaration for this module
 import _promise from "eslint-plugin-promise";
@@ -52,6 +54,13 @@ export const eslintComments = _eslintComments as ESLint.Plugin & {
   };
 };
 export const reactHooks = _reactHooks as ESLint.Plugin & {
+  configs: {
+    recommended: {
+      rules: RulesRecord;
+    };
+  };
+};
+export const pluginImport = _import as ESLint.Plugin & {
   configs: {
     recommended: {
       rules: RulesRecord;

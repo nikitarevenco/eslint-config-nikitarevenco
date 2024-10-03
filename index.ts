@@ -77,7 +77,7 @@ const nikitarevenco = (
   /* eslint import/no-named-as-default-member: "off" -- Importing from the correct module */
   return typescript.config(
     javascriptRules(javascriptOverride),
-    // @ts-ignore
+    // @ts-expect-error -- is not undefined
     reactRules(reactOverride, renamedRules.react),
     reactHooksRules(reactHooksOverride, renamedRules["react-hooks"]),
     jsxA11yRules(jsxA11yOverride, renamedRules["jsx-a11y"]),
@@ -88,7 +88,7 @@ const nikitarevenco = (
     nextRules(nextjsOverride, renamedRules["@next/next"]),
     securityRules(securityOverride, renamedRules.security),
     promiseRules(promiseOverride, renamedRules.promise),
-    importRules(importxOverride, renamedRules["import-x"]),
+    importRules(importxOverride, renamedRules.import),
     ...typescriptRules(typescriptOverride, renamedRules["@typescript-eslint"]),
     eslintCommentsRules(
       eslintCommentsOverride,
