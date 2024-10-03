@@ -15,6 +15,8 @@ export const importRules = (
       "import",
       importPrefix,
     ),
+    // Is currently bugged and will flag typescript path aliases as unresolved imports
+    [`${importPrefix}/no-unresolved`]: "off",
     ...rulesConfig,
   } as RulesRecord,
 });
