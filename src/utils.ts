@@ -7,22 +7,22 @@ import {
 } from "./types.js";
 
 export const newRuleNames = {
-  "react-hooks": "hooks",
-  "jsx-a11y": "a11y",
+  "react-hooks": "react-hooks",
+  "jsx-a11y": "jsx-a11y",
   react: "react",
   unicorn: "unicorn",
-  sonarjs: "sonar",
-  tailwindcss: "tailwind",
-  "simple-import-sort": "import-sort",
-  "@next/next": "next",
+  sonarjs: "sonarjs",
+  tailwindcss: "tailwindcss",
+  "simple-import-sort": "simple-import-sort",
+  "@next/next": "@next/next",
   security: "security",
   promise: "promise",
-  "import-x": "import",
+  "import-x": "import-x",
   "eslint-comments": "eslint-comments",
   prettier: "prettier",
-  functional: "immutable",
+  functional: "functional",
   regexp: "regexp",
-  "@typescript-eslint": "ts",
+  "@typescript-eslint": "@typescript-eslint",
 } as const;
 
 export const renameRules = <OldPrefix extends OldPrefixes>(

@@ -9,8 +9,9 @@ export const sonarRules = (rulesConfig: RulesConfig, sonarPrefix: string) => ({
   plugins: { [sonarPrefix]: sonar },
   rules: {
     /* eslint import/no-named-as-default-member: "off" -- Importing from the correct module */
-    // @ts-expect-error -- Will refactor later
+    // @ts-expect-error -- Is defined
     ...renameRules(sonar.configs.recommended.rules, "sonarjs", sonarPrefix),
+    [`${sonarPrefix}/no-duplicate-string`]: "off",
     ...rulesConfig,
   } as RulesRecord,
 });

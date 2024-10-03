@@ -77,6 +77,7 @@ const nikitarevenco = (
   /* eslint import/no-named-as-default-member: "off" -- Importing from the correct module */
   return typescript.config(
     javascriptRules(javascriptOverride),
+    // @ts-ignore
     reactRules(reactOverride, renamedRules.react),
     reactHooksRules(reactHooksOverride, renamedRules["react-hooks"]),
     jsxA11yRules(jsxA11yOverride, renamedRules["jsx-a11y"]),

@@ -1,5 +1,6 @@
+import react, { configs } from "eslint-plugin-react";
+
 import { GLOB_SRC } from "../globs.js";
-import { react } from "../stub.js";
 import { type RulesConfig, type RulesRecord } from "../types.js";
 import { renameRules } from "../utils.js";
 
@@ -9,7 +10,7 @@ export const reactRules = (rulesConfig: RulesConfig, reactPrefix: string) => ({
     [reactPrefix]: react,
   },
   rules: {
-    ...renameRules(react.configs.flat.all.rules, "react", reactPrefix),
+    ...renameRules(configs.flat.all.rules, "react", reactPrefix),
     [`${reactPrefix}/forbid-component-props`]: "off",
     [`${reactPrefix}/jsx-filename-extension`]: [
       "error",
@@ -24,7 +25,7 @@ export const reactRules = (rulesConfig: RulesConfig, reactPrefix: string) => ({
     [`${reactPrefix}/jsx-sort-props`]: "off",
     [`${reactPrefix}/no-multi-comp`]: "off",
     [`${reactPrefix}/no-unescaped-entities`]: "off",
-    [`${reactPrefix}/prop-types`]: ["error", { ignore: ["className"] }],
+    [`${reactPrefix}/prop-types`]: "off",
     [`${reactPrefix}/prefer-read-only-props`]: "off",
     [`${reactPrefix}/react-in-jsx-scope`]: "off",
     [`${reactPrefix}/require-default-props`]: "off",

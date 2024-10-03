@@ -12,8 +12,6 @@ import _jsxA11y from "eslint-plugin-jsx-a11y";
 // @ts-expect-error -- No declaration for this module
 import _promise from "eslint-plugin-promise";
 // @ts-expect-error -- No declaration for this module
-import _react from "eslint-plugin-react";
-// @ts-expect-error -- No declaration for this module
 import _reactHooks from "eslint-plugin-react-hooks";
 // @ts-expect-error -- No declaration for this module
 import _security from "eslint-plugin-security";
@@ -24,13 +22,6 @@ import { type RulesRecord } from "./types.js";
 
 export const tailwindcss = _tailwindcss as ESLint.Plugin;
 export const configPrettier = _configPrettier as ESLint.Plugin;
-export const react = _react as ESLint.Plugin & {
-  configs: {
-    flat: {
-      all: { rules: RulesRecord };
-    };
-  };
-};
 export const promise = _promise as ESLint.Plugin & {
   configs: {
     ["flat/recommended"]: {
