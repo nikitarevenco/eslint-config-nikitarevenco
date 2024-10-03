@@ -1,4 +1,4 @@
-import react, { configs } from "eslint-plugin-react";
+import react from "eslint-plugin-react";
 
 import { GLOB_SRC } from "../globs.js";
 import { type RulesConfig, type RulesRecord } from "../types.js";
@@ -10,7 +10,8 @@ export const reactRules = (rulesConfig: RulesConfig, reactPrefix: string) => ({
     [reactPrefix]: react,
   },
   rules: {
-    ...renameRules(configs.flat.all.rules, "react", reactPrefix),
+    /* eslint import/no-named-as-default-member: "off" -- This is the correct way to reference the config file */
+    ...renameRules(react.configs.flat.all.rules, "react", reactPrefix),
     [`${reactPrefix}/forbid-component-props`]: "off",
     [`${reactPrefix}/jsx-filename-extension`]: [
       "error",
