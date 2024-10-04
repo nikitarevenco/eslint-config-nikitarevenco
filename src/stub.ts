@@ -13,8 +13,7 @@ import _import from "eslint-plugin-import";
 import _jsxA11y from "eslint-plugin-jsx-a11y";
 // @ts-expect-error -- No declaration for this module
 import _promise from "eslint-plugin-promise";
-declare module "eslint-plugin-react";
-
+// @ts-disable
 import _react from "eslint-plugin-react";
 // @ts-expect-error -- No declaration for this module
 import _reactHooks from "eslint-plugin-react-hooks";
