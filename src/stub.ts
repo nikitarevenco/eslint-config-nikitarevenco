@@ -75,7 +75,7 @@ export const next = _next as ESLint.Plugin & {
     };
   };
 };
-export const react = _javascript as ESLint.Plugin & {
+export const react = _react as ESLint.Plugin & {
   configs: {
     flat: {
       all: {
