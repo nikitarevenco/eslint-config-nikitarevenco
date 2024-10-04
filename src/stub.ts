@@ -13,8 +13,6 @@ import _import from "eslint-plugin-import";
 import _jsxA11y from "eslint-plugin-jsx-a11y";
 // @ts-expect-error -- No declaration for this module
 import _promise from "eslint-plugin-promise";
-// @ts-disable
-import _react from "eslint-plugin-react";
 // @ts-expect-error -- No declaration for this module
 import _reactHooks from "eslint-plugin-react-hooks";
 // @ts-expect-error -- No declaration for this module
@@ -22,6 +20,7 @@ import _security from "eslint-plugin-security";
 // @ts-expect-error -- No declaration for this module
 import _tailwindcss from "eslint-plugin-tailwindcss";
 
+import _react from "../node_modules/eslint-plugin-react/index.js";
 import { type RulesRecord } from "./types.js";
 
 export const tailwindcss = _tailwindcss as ESLint.Plugin;
