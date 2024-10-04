@@ -31,6 +31,8 @@ export const javascriptRules = (rulesConfig: RulesConfig = {}) =>
           "no-ternary": "off",
           "no-underscore-dangle": "off",
           "no-unused-expressions": "off",
+          // does not account for the variable being used as a React component, superceded by @typescript-eslint/no-unused-vars
+          "no-useless-assignment": "off",
           "no-void": ["error", { allowAsStatement: true }],
           "one-var": ["error", "never"],
           ...rulesConfig,
