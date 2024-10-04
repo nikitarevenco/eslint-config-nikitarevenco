@@ -13,6 +13,7 @@ import _import from "eslint-plugin-import";
 import _jsxA11y from "eslint-plugin-jsx-a11y";
 // @ts-expect-error -- No declaration for this module
 import _promise from "eslint-plugin-promise";
+import _react from "eslint-plugin-react";
 // @ts-expect-error -- No declaration for this module
 import _reactHooks from "eslint-plugin-react-hooks";
 // @ts-expect-error -- No declaration for this module
@@ -71,6 +72,15 @@ export const next = _next as ESLint.Plugin & {
   configs: {
     recommended: {
       rules: RulesRecord;
+    };
+  };
+};
+export const react = _javascript as ESLint.Plugin & {
+  configs: {
+    flat: {
+      all: {
+        rules: RulesRecord;
+      };
     };
   };
 };

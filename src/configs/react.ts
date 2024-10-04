@@ -1,6 +1,5 @@
-import react from "eslint-plugin-react";
-
 import { GLOB_SRC } from "../globs.js";
+import { react } from "../stub.js";
 import { type RulesConfig, type RulesRecord } from "../types.js";
 import { renameRules } from "../utils.js";
 
