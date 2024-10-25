@@ -33,6 +33,13 @@ export const typescriptRules = (
                 selector: ["function"],
                 format: ["camelCase", "PascalCase"],
               },
+              // unused function parameters must begin with an underscore
+              {
+                selector: ["parameter"],
+                modifiers: ["unused"],
+                format: ["camelCase"],
+                prefix: ["_"],
+              },
               // Required prefix for boolean variables
               {
                 selector: "variable",
