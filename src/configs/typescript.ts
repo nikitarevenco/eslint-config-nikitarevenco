@@ -15,11 +15,11 @@ export const typescriptRules = (
         ...typescript.configs.stylisticTypeChecked,
         {
           rules: {
-            "@typescript-eslint/array-type": [
+            [`${typescriptPrefix}/array-type`]: [
               "error",
               { default: "array-simple", readonly: "array-simple" },
             ],
-            "@typescript-eslint/naming-convention": [
+            [`${typescriptPrefix}/naming-convention`]: [
               "error",
               {
                 selector: ["memberLike", "property", "parameter"],
@@ -67,35 +67,38 @@ export const typescriptRules = (
                 format: null,
               },
             ],
-            "@typescript-eslint/class-methods-use-this": "error",
-            "@typescript-eslint/consistent-type-definitions": ["error", "type"],
-            "@typescript-eslint/consistent-type-imports": [
+            [`${typescriptPrefix}/class-methods-use-this`]: "error",
+            [`${typescriptPrefix}/consistent-type-definitions`]: [
+              "error",
+              "type",
+            ],
+            [`${typescriptPrefix}/consistent-type-imports`]: [
               "error",
               {
                 fixStyle: "inline-type-imports",
                 prefer: "type-imports",
               },
             ],
-            "@typescript-eslint/consistent-type-exports": "error",
-            "@typescript-eslint/default-param-last": "error",
-            "@typescript-eslint/init-declarations": "error",
-            "@typescript-eslint/no-loop-func": "error",
-            "@typescript-eslint/max-params": "error",
-            "@typescript-eslint/no-empty-function": "off",
-            "@typescript-eslint/no-explicit-any": [
+            [`${typescriptPrefix}/consistent-type-exports`]: "error",
+            [`${typescriptPrefix}/default-param-last`]: "error",
+            [`${typescriptPrefix}/init-declarations`]: "error",
+            [`${typescriptPrefix}/no-loop-func`]: "error",
+            [`${typescriptPrefix}/max-params`]: "error",
+            [`${typescriptPrefix}/no-empty-function`]: "off",
+            [`${typescriptPrefix}/no-explicit-any`]: [
               "error",
               { fixToUnknown: true },
             ],
-            "@typescript-eslint/no-shadow": "error",
-            "@typescript-eslint/no-use-before-define": "error",
-            "@typescript-eslint/no-useless-empty-export": "error",
-            "@typescript-eslint/parameter-properties": "error",
-            "@typescript-eslint/no-unnecessary-parameter-property-assignment":
+            [`${typescriptPrefix}/no-shadow`]: "error",
+            [`${typescriptPrefix}/no-use-before-define`]: "error",
+            [`${typescriptPrefix}/no-useless-empty-export`]: "error",
+            [`${typescriptPrefix}/parameter-properties`]: "error",
+            [`${typescriptPrefix}/no-unnecessary-parameter-property-assignment`]:
               "error",
-            "@typescript-eslint/prefer-destructuring": "error",
-            "@typescript-eslint/promise-function-async": "error",
-            "@typescript-eslint/no-unnecessary-qualifier": "error",
-            "@typescript-eslint/no-unused-vars": [
+            [`${typescriptPrefix}/prefer-destructuring`]: "error",
+            [`${typescriptPrefix}/promise-function-async`]: "error",
+            [`${typescriptPrefix}/no-unnecessary-qualifier`]: "error",
+            [`${typescriptPrefix}/no-unused-vars`]: [
               "error",
               {
                 argsIgnorePattern: "^_",
@@ -103,7 +106,7 @@ export const typescriptRules = (
                 caughtErrorsIgnorePattern: "^_",
               },
             ],
-            "@typescript-eslint/restrict-template-expressions": [
+            [`${typescriptPrefix}/restrict-template-expressions`]: [
               "error",
               {
                 allowBoolean: true,
@@ -112,7 +115,7 @@ export const typescriptRules = (
                 allowRegExp: true,
               },
             ],
-            "@typescript-eslint/switch-exhaustiveness-check": [
+            [`${typescriptPrefix}/switch-exhaustiveness-check`]: [
               "error",
               { requireDefaultForNonUnion: true },
             ],
@@ -121,7 +124,7 @@ export const typescriptRules = (
         },
       ]
         .map((typescriptConfig) =>
-          // @ts-expect-error -- Will deal with this later
+          // @ts-expect-error -- Satisfies Config
           renameRulesTypeScript(typescriptConfig, typescriptPrefix),
         )
         .map((typescriptConfig) => ({ ...typescriptConfig, files: [GLOB_SRC] }))

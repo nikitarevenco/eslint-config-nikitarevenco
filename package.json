@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-nikitarevenco",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Personal eslint config including hundreds of eslint rules",
   "main": "dist/index.js",
   "type": "module",
