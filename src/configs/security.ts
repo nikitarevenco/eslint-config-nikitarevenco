@@ -15,6 +15,7 @@ export const securityRules = (
       "security",
       securityPrefix,
     ),
+    [`${securityPrefix}/detect-object-injection`]: "off",
     ...rulesConfig,
   } as RulesRecord,
 });
