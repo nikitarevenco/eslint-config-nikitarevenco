@@ -28,6 +28,7 @@ export const javascriptRules = (rulesConfig: RulesConfig = {}) =>
           "no-duplicate-imports": "off",
           "no-magic-numbers": "off",
           "no-shadow": "off",
+          "no-undefined": "off",
           "no-ternary": "off",
           "no-underscore-dangle": "off",
           "no-unused-expressions": "off",
