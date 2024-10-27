@@ -18,6 +18,7 @@ export const javascriptRules = (rulesConfig: RulesConfig = {}) =>
           "id-length": "off",
           "init-declarations": "off",
           "max-lines-per-function": "off",
+          "max-lines": "off",
           "max-params": "off",
           "max-statements": "off",
           "multiline-comment-style": "off",
