@@ -10,6 +10,7 @@ export const nextRules = (rulesConfig: RulesConfig, nextPrefix: string) => ({
   plugins: { [nextPrefix]: fixupPluginRules(next) },
   rules: {
     ...renameRules(next.configs.recommended.rules, "@next/next", nextPrefix),
+    [`${nextPrefix}/no-img-element`]: ["off"],
     ...rulesConfig,
   } as RulesRecord,
 });
