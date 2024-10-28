@@ -11,9 +11,19 @@ export const storybookRules = (
     ? [
         /* eslint import/no-named-as-default-member: "off" -- the name should not be changed, we are importing from the correct place */
         ...storybook.configs["flat/recommended"],
+        {
+          rules: {
+            [`${storybookPrefix}/default-exports`]: "off",
+          },
+        },
       ]
         .map((storybookConfig) =>
-          renameRulesArray(storybookConfig, "storybook", storybookPrefix),
+          renameRulesArray(
+            // @ts-expect-error -- Satisfies Config
+            storybookConfig,
+            "storybook",
+            storybookPrefix,
+          ),
         )
         .map((storybookConfig) => ({ ...storybookConfig, files: [GLOB_SRC] }))
     : [];
