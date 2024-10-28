@@ -91,7 +91,7 @@ const nikitarevenco = (
     securityRules(securityOverride, renamedRules.security),
     promiseRules(promiseOverride, renamedRules.promise),
     importRules(importxOverride, renamedRules.import),
-    storybookRules(storybookOverride, renamedRules.storybook),
+    ...storybookRules(storybookOverride, renamedRules.storybook),
     ...typescriptRules(typescriptOverride, renamedRules["@typescript-eslint"]),
     eslintCommentsRules(
       eslintCommentsOverride,

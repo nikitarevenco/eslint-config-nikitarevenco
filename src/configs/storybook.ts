@@ -1,22 +1,19 @@
 import { GLOB_SRC } from "../globs.js";
 import { storybook } from "../stub.js";
-import { type RulesConfig, type RulesRecord } from "../types.js";
-import { renameRules } from "../utils.js";
+import { type RulesConfig } from "../types.js";
+import { renameRulesArray } from "../utils.js";
 
 export const storybookRules = (
   rulesConfig: RulesConfig,
   storybookPrefix: string,
-) => ({
-  files: [GLOB_SRC],
-  plugins: {
-    [storybookPrefix]: storybook,
-  },
-  rules: {
-    ...renameRules(
-      storybook.configs["flat/recommended"].rules,
-      "jsx-a11y",
-      storybookPrefix,
-    ),
-    ...rulesConfig,
-  } as RulesRecord,
-});
+) =>
+  rulesConfig
+    ? [
+        /* eslint import/no-named-as-default-member: "off" -- the name should not be changed, we are importing from the correct place */
+        ...storybook.configs["flat/recommended"],
+      ]
+        .map((storybookConfig) =>
+          renameRulesArray(storybookConfig, "storybook", storybookPrefix),
+        )
+        .map((storybookConfig) => ({ ...storybookConfig, files: [GLOB_SRC] }))
+    : [];

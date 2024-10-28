@@ -96,8 +96,6 @@ export const javascript = _javascript as ESLint.Plugin & {
 
 export const storybook = _storybook as ESLint.Plugin & {
   configs: {
-    ["flat/recommended"]: {
-      rules: RulesRecord;
-    };
+    ["flat/recommended"]: RulesRecord[];
   };
 };

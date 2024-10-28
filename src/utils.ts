@@ -41,17 +41,20 @@ export const renameRules = <OldPrefix extends OldPrefixes>(
   ) as RulesRecord<GetNewPrefix<OldPrefix>>;
 };
 
-export const renameRulesTypeScript = (
-  tsConfig: Linter.Config<RulesRecord<"@typescript-eslint">>,
+export const renameRulesArray = <
+  Prefix extends "@typescript-eslint" | "storybook",
+>(
+  tsConfig: Linter.Config<RulesRecord<Prefix>>,
+  oldPrefix: Prefix,
   newPrefix: string,
-): Linter.Config<RulesRecord<GetNewPrefix<"@typescript-eslint">>> =>
+): Linter.Config<RulesRecord<GetNewPrefix<Prefix>>> =>
   Object.fromEntries(
     (
       Object.entries(tsConfig) as Array<
         [
-          keyof Linter.Config<RulesRecord<"@typescript-eslint">>,
-          Linter.Config<RulesRecord<"@typescript-eslint">>[keyof Linter.Config<
-            RulesRecord<"@typescript-eslint">
+          keyof Linter.Config<RulesRecord<Prefix>>,
+          Linter.Config<RulesRecord<Prefix>>[keyof Linter.Config<
+            RulesRecord<Prefix>
           >],
         ]
       >
@@ -61,18 +64,17 @@ export const renameRulesTypeScript = (
         key === "rules"
           ? /* eslint no-inline-comments: "off" -- Auto fixes to add an inline comment, will fix later */
             // @ts-expect-error -- Will error otherwise
-            renameRules(value, "@typescript-eslint", newPrefix)
+            renameRules(value, oldPrefix, newPrefix)
           : value;
 
       return [
         key,
         // @ts-expect-error -- Will error otherwise
-        key === "plugins" && "@typescript-eslint" in value
+        key === "plugins" && oldPrefix in value
           ? Object.fromEntries(
+              // @ts-expect-error -- will not be undefined
               Object.entries(value).map(([pluginName, pluginValue]) => [
-                pluginName === "@typescript-eslint"
-                  ? newRuleNames["@typescript-eslint"]
-                  : pluginName,
+                pluginName === oldPrefix ? newRuleNames[oldPrefix] : pluginName,
                 pluginValue,
               ]),
             )

@@ -2,7 +2,7 @@ import typescript from "typescript-eslint";
 
 import { GLOB_SRC } from "../globs.js";
 import { type RulesConfig, type RulesRecord } from "../types.js";
-import { renameRulesTypeScript } from "../utils.js";
+import { renameRulesArray } from "../utils.js";
 
 export const typescriptRules = (
   rulesConfig: RulesConfig,
@@ -124,8 +124,12 @@ export const typescriptRules = (
         },
       ]
         .map((typescriptConfig) =>
-          // @ts-expect-error -- Satisfies Config
-          renameRulesTypeScript(typescriptConfig, typescriptPrefix),
+          renameRulesArray(
+            // @ts-expect-error -- Satisfies Config
+            typescriptConfig,
+            "@typescript-eslint",
+            typescriptPrefix,
+          ),
         )
         .map((typescriptConfig) => ({ ...typescriptConfig, files: [GLOB_SRC] }))
     : [];
