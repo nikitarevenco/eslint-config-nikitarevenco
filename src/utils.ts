@@ -23,6 +23,7 @@ export const newRuleNames = {
   functional: "functional",
   regexp: "regexp",
   "@typescript-eslint": "@typescript-eslint",
+  storybook: "storybook",
 } as const;
 
 export const renameRules = <OldPrefix extends OldPrefixes>(

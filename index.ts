@@ -15,6 +15,7 @@ import { reactHooksRules } from "./src/configs/react-hooks.js";
 import { regexpRules } from "./src/configs/regexp.js";
 import { securityRules } from "./src/configs/security.js";
 import { sonarRules } from "./src/configs/sonar.js";
+import { storybookRules } from "./src/configs/storybook.js";
 import { tailwindRules } from "./src/configs/tailwind.js";
 import { typescriptRules } from "./src/configs/typescript.js";
 import { unicornRules } from "./src/configs/unicorn.js";
@@ -39,7 +40,8 @@ type ConfigItem =
   | "typescript"
   | "prettier"
   | "functional"
-  | "regexp";
+  | "regexp"
+  | "storybook";
 
 const nikitarevenco = (
   {
@@ -69,6 +71,7 @@ const nikitarevenco = (
     prettierOverride = {},
     functionalOverride = {},
     regexpOverride = {},
+    storybookOverride = {},
   }: Partial<Record<`${ConfigItem}Override`, RulesConfig>> = {},
   ...additionalEslintConfigs: Linter.Config[]
 ) => {
@@ -88,6 +91,7 @@ const nikitarevenco = (
     securityRules(securityOverride, renamedRules.security),
     promiseRules(promiseOverride, renamedRules.promise),
     importRules(importxOverride, renamedRules.import),
+    storybookRules(storybookOverride, renamedRules.storybook),
     ...typescriptRules(typescriptOverride, renamedRules["@typescript-eslint"]),
     eslintCommentsRules(
       eslintCommentsOverride,

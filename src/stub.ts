@@ -19,6 +19,8 @@ import _reactHooks from "eslint-plugin-react-hooks";
 // @ts-expect-error -- No declaration for this module
 import _security from "eslint-plugin-security";
 // @ts-expect-error -- No declaration for this module
+import _storybook from "eslint-plugin-storybook";
+// @ts-expect-error -- No declaration for this module
 import _tailwindcss from "eslint-plugin-tailwindcss";
 
 import { type RulesRecord } from "./types.js";
@@ -87,6 +89,14 @@ export const react = _react as ESLint.Plugin & {
 export const javascript = _javascript as ESLint.Plugin & {
   configs: {
     all: {
+      rules: RulesRecord;
+    };
+  };
+};
+
+export const storybook = _storybook as ESLint.Plugin & {
+  configs: {
+    ["flat/recommended"]: {
       rules: RulesRecord;
     };
   };
