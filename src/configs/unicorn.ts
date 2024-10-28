@@ -20,6 +20,7 @@ export const unicornRules = (
             unicornPrefix,
           ),
           [`${unicornPrefix}/no-array-reduce`]: "off",
+          [`${unicornPrefix}/prefer-query-selector`]: "off",
           [`${unicornPrefix}/no-keyword-prefix`]: "off",
           [`${unicornPrefix}/no-null`]: "off",
           [`${unicornPrefix}/prefer-at`]: [
