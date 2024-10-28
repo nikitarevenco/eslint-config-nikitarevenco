@@ -25,7 +25,6 @@ export const unicornRules = (
           [`${unicornPrefix}/no-null`]: "off",
           [`${unicornPrefix}/prefer-at`]: [
             "error",
-            { checkAllIndexAccess: true },
           ],
           [`${unicornPrefix}/prevent-abbreviations`]: "off",
           ...rulesConfig,
