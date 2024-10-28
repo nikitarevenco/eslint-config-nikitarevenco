@@ -15,6 +15,8 @@ export const jsxA11yRules = (
   rules: {
     /* eslint ts/no-unsafe-member-access: "off" -- Module has no type declarations */
     ...renameRules(jsxA11y.flatConfigs.strict.rules, "jsx-a11y", jsxA11yPrefix),
+    // There are situations where using autofocus is acceptable, such as Dialog elements and on heading elements
+    [`${jsxA11yPrefix}/no-autofocus`]: "off",
     ...rulesConfig,
   } as RulesRecord,
 });
